@@ -18,8 +18,11 @@ dotenv.config();
       schema: 'public',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      // synchronize 옵션의 의미에 대해 알아보기
     }),
   ],
   controllers: [],
 })
 export class AppModule {}
+
+//실제 서비스 개발해보기

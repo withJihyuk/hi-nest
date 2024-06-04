@@ -18,3 +18,5 @@ describe('BoardController', () => {
     expect(controller).toBeDefined();
   });
 });
+
+// 테스트 코드 구성 + 사용해보기
