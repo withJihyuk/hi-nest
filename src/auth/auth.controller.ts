@@ -4,9 +4,6 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('google')
 export class GoogleController {
-  getHello(): any {
-    throw new Error('Method not implemented.');
-  }
   constructor(private readonly appService: AppService) {}
 
   @Get()

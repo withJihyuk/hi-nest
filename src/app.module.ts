@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BoardModule } from './question/board.module';
+import { QuestionModule } from './question/question.module';
 
 import { AuthModule } from './auth/auth.module';
 
@@ -9,7 +9,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 @Module({
   imports: [
-    BoardModule,
+    QuestionModule,
     AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',

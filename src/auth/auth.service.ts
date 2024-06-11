@@ -9,6 +9,6 @@ export class AppService {
 
     return {
       access_token: req.user.access_token,
-    };
+    }; // 자체 토큰 발급 후 리턴 해야함
   }
 }

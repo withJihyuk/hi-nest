@@ -32,5 +32,6 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       accessToken,
     };
     done(null, user);
+    // 데이터베이스에 UPSERT 형식으로 유저를 저장 해줘야 함. 이메일과 고유 id는 변하지 않으니 id를 기반으로 유저 구분
   }
 }
