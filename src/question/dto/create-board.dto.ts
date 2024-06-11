@@ -1,5 +1,4 @@
 export class CreateBoardDto {
-  readonly authorid: string;
-  readonly subject: string;
   readonly content: string;
+  readonly to_user_id: string;
 }

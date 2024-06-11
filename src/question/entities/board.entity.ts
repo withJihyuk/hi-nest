@@ -3,7 +3,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn,
   DeleteDateColumn,
 } from 'typeorm';
 
@@ -13,19 +12,13 @@ export class BoardEntity {
   id: number;
 
   @Column()
-  subject: string;
-
-  @Column()
-  authorid: string;
-
-  @Column()
   content: string;
+
+  @Column()
+  to_user_id: string;
 
   @CreateDateColumn()
   createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 
   @DeleteDateColumn()
   deletedAt: Date;

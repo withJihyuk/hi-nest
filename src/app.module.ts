@@ -1,12 +1,16 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BoardModule } from './board/board.module';
+import { BoardModule } from './question/board.module';
+
+import { AuthModule } from './auth/auth.module';
+
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 @Module({
   imports: [
     BoardModule,
+    AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.DB_HOST,
