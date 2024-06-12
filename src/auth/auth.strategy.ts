@@ -1,14 +1,17 @@
 import { PassportStrategy } from '@nestjs/passport';
-import { Strategy, VerifyCallback } from 'passport-google-oauth20';
-import { config } from 'dotenv';
-
-import { Injectable } from '@nestjs/common';
-
-config();
-
+import { Strategy } from 'passport-google-oauth20';
+import { InjectRepository } from '@nestjs/typeorm';
+import { authEntity } from './entities/auth.entity';
+import { Repository } from 'typeorm';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
+require('dotenv').config();
+import { CreateUserDto } from './dto/create-suer.dto';
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
-  constructor() {
+  constructor(
+    @InjectRepository(authEntity)
+    private authRepository: Repository<authEntity>,
+  ) {
     super({
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -17,21 +20,20 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: any,
-    done: VerifyCallback,
-  ): Promise<any> {
-    const { name, emails, photos } = profile;
-    const user = {
-      email: emails[0].value,
-      firstName: name.familyName,
-      lastName: name.givenName,
-      picture: photos[0].value,
-      accessToken,
-    };
-    done(null, user);
-    // 데이터베이스에 UPSERT 형식으로 유저를 저장 해줘야 함. 이메일과 고유 id는 변하지 않으니 id를 기반으로 유저 구분
+  async validate(accessToken: string, refreshToken: string, profile: any) {
+    try {
+      const { name, emails, photos } = profile;
+      const user: CreateUserDto = {
+        id: profile.id,
+        email: emails[0].value,
+        name: name.familyName + name.givenName,
+        picture: photos[0].value,
+      };
+      this.authRepository.upsert(user, ['id']);
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw new UnauthorizedException('로그인에 실패 하였습니다.');
+    }
   }
 }
